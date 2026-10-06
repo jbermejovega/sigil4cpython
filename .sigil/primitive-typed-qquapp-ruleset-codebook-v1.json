@@ -1,0 +1,49 @@
+{
+  "schema_id": "SIGIL4CPYTHON_PRIMITIVE_TYPED_QQUAPP_RULESET_CODEBOOK_V1",
+  "status": "PUBLICATION_RULESET_PLAN",
+  "source_repository": "jbermejovega/sigilbook",
+  "public_repository": "jbermejovega/sigil4cpython",
+  "upstream_repository": "python/cpython",
+  "observed_repository_rulesets_at_design_time": 0,
+  "target_branches": ["main"],
+  "desired_enforcement": "ACTIVE",
+  "bypass_list": [],
+  "rules": [
+    "RESTRICT_DELETIONS",
+    "REQUIRE_PULL_REQUEST",
+    "REQUIRE_STATUS_CHECKS",
+    "BLOCK_FORCE_PUSHES"
+  ],
+  "pull_request_policy": {
+    "required_approvals": 1,
+    "dismiss_stale_reviews": true
+  },
+  "required_status_checks": [
+    "Validate primitive typed publication codebook"
+  ],
+  "linear_history_required_in_v1": false,
+  "signed_commits_required_in_v1": false,
+  "code_scanning_required_in_v1": false,
+  "code_quality_required_in_v1": false,
+  "coverage_rule_required_in_v1": false,
+  "deferred_hardening_reason": "Preserve compatibility with CPython upstream synchronization until each stricter repository path has an explicit stable witness.",
+  "type_law": {
+    "plural_typed": true,
+    "resource_typed": true,
+    "relation_typed": true,
+    "quno_typed": true
+  },
+  "kokompi_design_pattern": [
+    "PYKARA_CARVE",
+    "KIRBY_REWRITE",
+    "SWALLO_SWALLOW",
+    "QQUAPP_PULL_TENSOR_PUSH"
+  ],
+  "source_payload_policy": "DIGEST_AND_PUBLIC_INTERFACE_ONLY",
+  "private_payload_embedded": false,
+  "cpython_private_api_required": false,
+  "github_ruleset_is_semantic_authority": false,
+  "github_ruleset_mutation_executed": false,
+  "identity_transport": false,
+  "authority_transport": false
+}
