@@ -71,7 +71,7 @@ class CodebookManifest:
             "audiences": list(self.audiences),
             "entry_notebook": self.entry_notebook,
             "runtime": {
-                "python": ">=3.9",
+                "python": ">=3.10",
                 "requirements": list(self.requirements),
             },
             "source": {
