@@ -1,0 +1,12 @@
+{
+  "schema_id": "SIGILBOOK_SIGIL4CPYTHON_UAP_PUBLIC_PACA_CORE_V1",
+  "status": "PUBLIC_INTERFACE_CANDIDATE",
+  "source_repository": "jbermejovega/sigilbook",
+  "public_repository": "jbermejovega/sigil4cpython",
+  "source_payload_policy": "DIGEST_AND_PUBLIC_INTERFACE_ONLY",
+  "private_payload_embedded": false,
+  "identity_transport": false,
+  "authority_transport": false,
+  "quno_policy": "PRESERVE",
+  "cpython_private_api_required": false
+}

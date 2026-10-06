@@ -1,0 +1,11 @@
+{
+  "schema_id":"SIGILITAS_SYNKK_UPSTREAM_INTERFACE_V1",
+  "source":{"repository":"jbermejovega/sigilbook","commit":"b170dc624aa14b91581267a9b9378cf5b38cfc5c"},
+  "public":{"repository":"jbermejovega/sigil4cpython","commit":"64f87ac0f642250219e4b7053f05ad570675dd49"},
+  "candidate_pr":13,
+  "candidate_head":"a95ef4af701e524b80c84822142d1b0cba9174ce",
+  "private_payload_transport":false,
+  "git_effect_executed":false,
+  "identity_transport":false,
+  "authority_transport":false
+}
