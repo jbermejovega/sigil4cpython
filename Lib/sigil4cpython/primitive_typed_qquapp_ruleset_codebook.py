@@ -1,16 +1,16 @@
 """Primitive-typed QQUAPP ruleset/codebook projection for SIGIL4CPython.
 
-This module is a dependency-free public governance and configuration carrier.
-It does not mirror private SIGILBOOK payloads, mutate GitHub rulesets, patch the
-CPython interpreter, or grant semantic authority to repository policy.
+Dependency-free public governance/configuration carrier. It never mirrors
+private SIGILBOOK payload, mutates GitHub rulesets, patches CPython interpreter
+semantics, or grants semantic authority to repository policy.
 
 PYKARA carves a public typed factor.
 KIRBY performs a witnessed presentation rewrite.
-SWALLO/SWALLOW absorbs a compatible factor into a fresh public occurrence.
+SWALLO/SWALLOW embeds a compatible factor into a fresh public occurrence.
 QQUAPP supplies the typed pull/tensor/push resource boundary.
 
-KOKOMPI is a typed design pattern, not a person/agent identity. Every public
-type carrier is PluralTyped, ResourceTyped, RelationTyped and QUNOTyped.
+KOKOMPI is a typed design pattern. Every type carrier is PluralTyped,
+ResourceTyped, RelationTyped and QUNOTyped.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from dataclasses import dataclass
 from enum import Enum
 from hashlib import sha256
 import json
-from typing import Iterable, Mapping
+from typing import Iterable, Mapping, Optional
 
 SCHEMA_ID = "SIGIL4CPYTHON_PRIMITIVE_TYPED_QQUAPP_RULESET_CODEBOOK_V1"
 SOURCE_ROOT = "SIGILBOOK_TOTAL_VOID_AST_OF_ALL_ASTS_V1"
@@ -68,11 +68,13 @@ class PrimitiveTypedFacet:
     def validate(self) -> None:
         if not all((self.type_id, self.quno, self.replay_witness)):
             raise ValueError("INCOMPLETE_PRIMITIVE_TYPED_FACET")
-        if not (
-            self.plural_typed
-            and self.resource_typed
-            and self.relation_typed
-            and self.quno_typed
+        if not all(
+            (
+                self.plural_typed,
+                self.resource_typed,
+                self.relation_typed,
+                self.quno_typed,
+            )
         ):
             raise ValueError("ALL_PUBLIC_TYPES_MUST_BE_PLURAL_RESOURCE_RELATION_QUNO_TYPED")
         if self.identity_transport:
@@ -121,10 +123,15 @@ class TypedRelation:
 
     def validate(self) -> None:
         self.facet.validate()
-        if not self.relation_id or not self.source_type_ids or not self.target_type_ids:
+        if not all(
+            (
+                self.relation_id,
+                self.source_type_ids,
+                self.target_type_ids,
+                self.witness_id,
+            )
+        ):
             raise ValueError("INCOMPLETE_TYPED_RELATION")
-        if not self.witness_id:
-            raise ValueError("RELATION_WITNESS_REQUIRED")
 
 
 @dataclass(frozen=True)
@@ -204,7 +211,7 @@ class GitHubRulesetProjection:
     rules: tuple[RulesetRule, ...]
     required_status_checks: tuple[str, ...]
     bypass_actors: tuple[str, ...] = ()
-    observed_github_ruleset_id: int | None = None
+    observed_github_ruleset_id: Optional[int] = None
     observed_active: bool = False
     repository_policy_is_semantic_authority: bool = False
     github_mutation_executed: bool = False
@@ -213,6 +220,8 @@ class GitHubRulesetProjection:
         self.facet.validate()
         if not self.ruleset_id or not self.name or not self.target_branches:
             raise ValueError("INCOMPLETE_RULESET_PROJECTION")
+        if len(self.target_branches) != len(set(self.target_branches)):
+            raise ValueError("DUPLICATE_RULESET_TARGET")
         kinds = tuple(rule.kind for rule in self.rules)
         if len(kinds) != len(set(kinds)):
             raise ValueError("DUPLICATE_RULESET_RULE_KIND")
@@ -237,13 +246,12 @@ class KokompiDesignPattern:
 
     def validate(self) -> None:
         self.facet.validate()
-        expected = (
+        if self.stages != (
             PatternStage.PYKARA_CARVE,
             PatternStage.KIRBY_REWRITE,
             PatternStage.SWALLO_SWALLOW,
             PatternStage.QQUAPP_PULL_TENSOR_PUSH,
-        )
-        if self.stages != expected:
+        ):
             raise ValueError("KOKOMPI_PATTERN_STAGE_ORDER_DRIFT")
         if not self.source_type_ids or not self.target_ruleset_id or not self.witness_ids:
             raise ValueError("INCOMPLETE_KOKOMPI_DESIGN_PATTERN")
@@ -386,13 +394,17 @@ def _facet(type_id: str) -> PrimitiveTypedFacet:
 
 
 def effective_capability_meet(entries: Iterable[PublicCodebookEntry]) -> tuple[str, ...]:
-    materialized = tuple(entries)
-    if not materialized:
+    entries = tuple(entries)
+    if not entries:
         return ()
-    meet = set(materialized[0].capabilities)
-    for entry in materialized[1:]:
-        meet.intersection_update(entry.capabilities)
-    return tuple(sorted(meet))
+    result = set(entries[0].capabilities)
+    for entry in entries[1:]:
+        result.intersection_update(entry.capabilities)
+    return tuple(sorted(result))
+
+
+def _is_hex40(value: str) -> bool:
+    return len(value) == 40 and all(char in "0123456789abcdef" for char in value)
 
 
 def validate_publication_primitive(primitive: PublicationPrimitive) -> PublicationReceipt:
@@ -439,6 +451,8 @@ def validate_publication_primitive(primitive: PublicationPrimitive) -> Publicati
         obligations.append("PUBLIC_RELATION_ID_COLLAPSE")
 
     for entry in primitive.codebook:
+        if not _is_hex40(entry.source_commit):
+            obligations.append(f"INVALID_SOURCE_COMMIT_PIN:{entry.public_interface_id}")
         if not set(entry.resource_ids) <= resource_ids:
             obligations.append(f"UNKNOWN_RESOURCE_REF:{entry.public_interface_id}")
         if not set(entry.relation_ids) <= relation_ids:
@@ -462,16 +476,16 @@ def validate_publication_primitive(primitive: PublicationPrimitive) -> Publicati
     if not set(primitive.krone_gate.required_capabilities) <= set(capabilities):
         obligations.append("KRONE_CAPABILITY_MEET_TOO_WEAK")
 
-    digest_payload = {
+    payload = {
         "schema_id": primitive.schema_id,
         "codebook": [
             {
                 "type_id": entry.facet.type_id,
                 "interface": entry.public_interface_id,
                 "digest": entry.public_digest,
-                "capabilities": list(entry.capabilities),
-                "resources": list(entry.resource_ids),
-                "relations": list(entry.relation_ids),
+                "capabilities": entry.capabilities,
+                "resources": entry.resource_ids,
+                "relations": entry.relation_ids,
                 "source_commit": entry.source_commit,
                 "source_schema_id": entry.source_schema_id,
             }
@@ -479,17 +493,17 @@ def validate_publication_primitive(primitive: PublicationPrimitive) -> Publicati
         ],
         "ruleset": {
             "name": primitive.ruleset.name,
-            "targets": list(primitive.ruleset.target_branches),
-            "rules": [rule.kind.value for rule in primitive.ruleset.rules],
-            "checks": list(primitive.ruleset.required_status_checks),
-            "bypass": list(primitive.ruleset.bypass_actors),
+            "targets": primitive.ruleset.target_branches,
+            "rules": tuple(rule.kind.value for rule in primitive.ruleset.rules),
+            "checks": primitive.ruleset.required_status_checks,
+            "bypass": primitive.ruleset.bypass_actors,
         },
-        "pattern": [stage.value for stage in primitive.kokompi_pattern.stages],
+        "pattern": tuple(stage.value for stage in primitive.kokompi_pattern.stages),
     }
     return PublicationReceipt(
         schema_id=SCHEMA_ID,
         verdict="ADMIT_SOURCE_PLAN" if not obligations else "HOLD_WITH_OBSTRUCTION",
-        primitive_digest=_stable_digest(digest_payload),
+        primitive_digest=_stable_digest(payload),
         effective_capabilities=capabilities,
         obligations=tuple(sorted(set(obligations))),
     )
@@ -539,12 +553,15 @@ def materialize_configuration(
     abi = resolved["ABI_TRACK"]
     version = resolved["CPYTHON_MINIMUM"]
     version_tuple = tuple(map(int, version.split(".")))
+    execution = resolved["EXECUTION_BOUNDARY"]
     if abi == "ABI3T" and version_tuple < (3, 15):
         raise ValueError("ABI3T_REQUIRES_CPYTHON_3_15_OR_NEWER")
     if abi == "ABI3" and version_tuple < (3, 10):
         raise ValueError("ABI3_REQUIRES_CPYTHON_3_10_OR_NEWER")
+    if abi == "PURE_PYTHON" and execution == "NATIVE_EXTENSION_PLAN":
+        raise ValueError("PURE_PYTHON_CANNOT_REQUEST_NATIVE_EXTENSION_PLAN")
 
-    native = abi in {"ABI3", "ABI3T"}
+    native = abi in {"ABI3", "ABI3T"} and execution == "NATIVE_EXTENSION_PLAN"
     payload = {
         "config_space_id": space.config_space_id,
         "epoch": epoch,
@@ -567,23 +584,25 @@ def build_reference_publication_primitive(
     *,
     source_commit: str = "SOURCE_COMMIT_REQUIRED",
 ) -> PublicationPrimitive:
-    resource = QQUAPPResource(
-        resource_id="RESOURCE:PUBLICATION_METADATA",
-        facet=_facet("TYPE:RESOURCE:PUBLICATION_METADATA"),
-        pull_witness="W:QQUAPP:PULL:PUBLICATION",
-        tensor_witness="W:QQUAPP:TENSOR:PUBLICATION",
-        push_witness="W:QQUAPP:PUSH:PUBLICATION",
-        krone_gate_witness="W:KRONE:PUBLICATION",
-        capacity=8,
-    )
-    ci_resource = QQUAPPResource(
-        resource_id="RESOURCE:CI_GATE",
-        facet=_facet("TYPE:RESOURCE:CI_GATE"),
-        pull_witness="W:QQUAPP:PULL:CI",
-        tensor_witness="W:QQUAPP:TENSOR:CI",
-        push_witness="W:QQUAPP:PUSH:CI",
-        krone_gate_witness="W:KRONE:CI",
-        capacity=4,
+    resources = (
+        QQUAPPResource(
+            "RESOURCE:PUBLICATION_METADATA",
+            _facet("TYPE:RESOURCE:PUBLICATION_METADATA"),
+            "W:QQUAPP:PULL:PUBLICATION",
+            "W:QQUAPP:TENSOR:PUBLICATION",
+            "W:QQUAPP:PUSH:PUBLICATION",
+            "W:KRONE:PUBLICATION",
+            8,
+        ),
+        QQUAPPResource(
+            "RESOURCE:CI_GATE",
+            _facet("TYPE:RESOURCE:CI_GATE"),
+            "W:QQUAPP:PULL:CI",
+            "W:QQUAPP:TENSOR:CI",
+            "W:QQUAPP:PUSH:CI",
+            "W:KRONE:CI",
+            4,
+        ),
     )
     type_names = (
         "TYPE:PUBLIC_CODEBOOK",
@@ -623,28 +642,29 @@ def build_reference_publication_primitive(
             "W:REL:RULESET_PROTECTS_PUBLICATION",
         ),
     )
-    all_relation_ids = tuple(relation.relation_id for relation in relations)
+    relation_ids = tuple(relation.relation_id for relation in relations)
+    resource_ids = tuple(resource.resource_id for resource in resources)
     codebook = tuple(
         PublicCodebookEntry(
             facet=_facet(type_id),
             public_interface_id="KLI:" + type_id.removeprefix("TYPE:"),
             public_digest="sha256:" + sha256(type_id.encode()).hexdigest(),
             capabilities=("READ", "TYPECHECK", "PLAN"),
-            resource_ids=(resource.resource_id, ci_resource.resource_id),
-            relation_ids=all_relation_ids,
+            resource_ids=resource_ids,
+            relation_ids=relation_ids,
             source_commit=source_commit,
             source_schema_id=type_id.replace("TYPE:", "SIGILBOOK_PUBLIC_") + "_V1",
         )
         for type_id in type_names
     )
     gate = KroneTypedGate(
-        gate_id="KRONE:GATE:PUBLICATION",
-        facet=_facet("TYPE:KRONE:GATE:PUBLICATION"),
-        input_type_ids=type_names,
-        resource_ids=(resource.resource_id, ci_resource.resource_id),
-        relation_ids=all_relation_ids,
-        required_capabilities=("READ", "TYPECHECK", "PLAN"),
-        witness_id="W:KRONE:GATE:PUBLICATION",
+        "KRONE:GATE:PUBLICATION",
+        _facet("TYPE:KRONE:GATE:PUBLICATION"),
+        type_names,
+        resource_ids,
+        relation_ids,
+        ("READ", "TYPECHECK", "PLAN"),
+        "W:KRONE:GATE:PUBLICATION",
     )
     ruleset = GitHubRulesetProjection(
         ruleset_id="GITHUB:RULESET:MAIN:PUBLICATION_V1",
@@ -654,7 +674,6 @@ def build_reference_publication_primitive(
         target_branches=("main",),
         rules=(
             RulesetRule(RuleKind.RESTRICT_DELETIONS),
-            RulesetRule(RuleKind.REQUIRE_LINEAR_HISTORY),
             RulesetRule(
                 RuleKind.REQUIRE_PULL_REQUEST,
                 (("required_approvals", "1"), ("dismiss_stale_reviews", "true")),
@@ -665,17 +684,17 @@ def build_reference_publication_primitive(
         required_status_checks=(PUBLICATION_CHECK,),
     )
     pattern = KokompiDesignPattern(
-        pattern_id="KOKOMPI:PUBLICATION:PYKARA_KIRBY_SWALLO",
-        facet=_facet("TYPE:KOKOMPI:PUBLICATION:PATTERN"),
-        stages=(
+        "KOKOMPI:PUBLICATION:PYKARA_KIRBY_SWALLO",
+        _facet("TYPE:KOKOMPI:PUBLICATION:PATTERN"),
+        (
             PatternStage.PYKARA_CARVE,
             PatternStage.KIRBY_REWRITE,
             PatternStage.SWALLO_SWALLOW,
             PatternStage.QQUAPP_PULL_TENSOR_PUSH,
         ),
-        source_type_ids=type_names,
-        target_ruleset_id=ruleset.ruleset_id,
-        witness_ids=(
+        type_names,
+        ruleset.ruleset_id,
+        (
             "W:PYKARA:PUBLIC:CARVE",
             "W:KIRBY:PUBLIC:REWRITE",
             "W:SWALLO:PUBLIC:ABSORB",
@@ -684,9 +703,9 @@ def build_reference_publication_primitive(
     )
     axis_facet = _facet("TYPE:CONFIGURATION:AXIS")
     config = GuidedConfigurationSpace(
-        config_space_id="CONFIG:SIGIL4CPYTHON:DIY:V1",
-        facet=_facet("TYPE:CONFIGURATION:SPACE"),
-        axes=(
+        "CONFIG:SIGIL4CPYTHON:DIY:V1",
+        _facet("TYPE:CONFIGURATION:SPACE"),
+        (
             ConfigurationAxis(
                 "ABI_TRACK",
                 ("PURE_PYTHON", "ABI3", "ABI3T"),
@@ -712,23 +731,23 @@ def build_reference_publication_primitive(
                 axis_facet,
             ),
         ),
-        krone_gate_id=gate.gate_id,
-        output_type_id="TYPE:CPYTHON_PUBLIC_PROJECTION",
+        gate.gate_id,
+        "TYPE:CPYTHON_PUBLIC_PROJECTION",
     )
     return PublicationPrimitive(
-        schema_id=SCHEMA_ID,
-        source_root=SOURCE_ROOT,
-        source_repository=SOURCE_REPOSITORY,
-        public_repository=PUBLIC_REPOSITORY,
-        upstream_repository=UPSTREAM_REPOSITORY,
-        protected_pi=PROTECTED_PI,
-        codebook=codebook,
-        resources=(resource, ci_resource),
-        relations=relations,
-        krone_gate=gate,
-        kokompi_pattern=pattern,
-        configuration_space=config,
-        ruleset=ruleset,
+        SCHEMA_ID,
+        SOURCE_ROOT,
+        SOURCE_REPOSITORY,
+        PUBLIC_REPOSITORY,
+        UPSTREAM_REPOSITORY,
+        PROTECTED_PI,
+        codebook,
+        resources,
+        relations,
+        gate,
+        pattern,
+        config,
+        ruleset,
     )
 
 
