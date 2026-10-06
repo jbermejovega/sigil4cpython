@@ -7,7 +7,7 @@ name = "sigil4cpython"
 version = "0.1.1"
 description = "Public SIGIL4PY compatibility layer and typed codebook validator"
 readme = "README.rst"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
   { name = "Jara Juana Bermejo Vega" }
 ]
@@ -33,4 +33,4 @@ dev = ["pytest>=8"]
 
 [project.scripts]
 sigil4py = "sigil4py.cli:main"
-sigil4py-check = "sigil4py.cli:main"
+sigil4py-check = "sigil4py.cli:check_main"
