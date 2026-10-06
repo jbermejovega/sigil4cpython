@@ -20,6 +20,20 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         except tkinter.TclError:
             cls.font = font.Font(root=cls.root, name=fontname, exists=False)
 
+    def actual_size(self, desc):
+        # The requested size is not always available (e.g. bitmap fonts).
+        return self.root.tk.call('font', 'actual', desc, '-size')
+
+    def tcl_font_object(self, desc):
+        # Return a font name or description as a Tcl object representing a
+        # font, as Tk returns for example from ttk.Style().lookup().
+        tk = self.root.tk
+        tk.call('set', '_font', desc)
+        tk.eval('font measure $_font x')  # convert the Tcl object to a font
+        obj = tk.call('set', '_font')
+        tk.call('unset', '_font')
+        return obj
+
     def test_configure(self):
         self.assertEqual(self.font.config, self.font.configure)
         options = self.font.configure()
@@ -51,7 +65,7 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         f = font.Font(root=self.root, font=('Times', 20, 'bold'))
         self.assertIn(f.name, font.names(self.root))
         self.assertEqual(f.actual('weight'), 'bold')
-        self.assertEqual(f.cget('size'), sizetype(20))
+        self.assertEqual(f.cget('size'), self.actual_size(('Times', 20, 'bold')))
 
         # ... or from the keyword options.
         f = font.Font(root=self.root, family='Times', size=20, weight='bold')
@@ -62,13 +76,13 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         # Explicit options override the corresponding settings of *font*.
         f = font.Font(root=self.root, font=('Times', 20, 'bold'), weight='normal')
         self.assertEqual(f.actual('weight'), 'normal')
-        self.assertEqual(f.cget('size'), sizetype(20))
+        self.assertEqual(f.cget('size'), self.actual_size(('Times', 20, 'bold')))
 
         # The new font can be given an explicit name.
         f = font.Font(root=self.root, name='testfont', font=('Times', 20))
         self.assertEqual(f.name, 'testfont')
         self.assertIn('testfont', font.names(self.root))
-        self.assertEqual(f.cget('size'), sizetype(20))
+        self.assertEqual(f.cget('size'), self.actual_size(('Times', 20)))
         # Reusing the name of an existing font fails.
         self.assertRaises(tkinter.TclError, font.Font, root=self.root,
                           name='testfont', font=('Times', 10))
@@ -134,7 +148,7 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         self.assertEqual(str(f), 'Times 20 bold')
         self.assertNotIn(f.name, font.names(self.root))
         self.assertEqual(f.actual('weight'), 'bold')
-        self.assertEqual(f.actual('size'), sizetype(20))
+        self.assertEqual(f.actual('size'), self.actual_size(('Times', 20, 'bold')))
         # It can be used as a widget option, with the same effect as the
         # description itself (gh-143990).
         self.assertEqual(tkinter.Label(self.root, font=f).cget('font'),
@@ -145,6 +159,36 @@ class FontTest(AbstractTkTest, unittest.TestCase):
                           font=('Times', 20), exists=True, weight='bold')
         # A name or a description is required.
         self.assertRaises(TypeError, font.Font, root=self.root, exists=True)
+
+    def test_tcl_object(self):
+        # Tk can return a font as a Tcl object (gh-156961).
+        if not self.wantobjects:
+            self.skipTest('Tcl objects are converted to strings')
+        obj = self.tcl_font_object(fontname)
+        self.assertEqual(obj.typename, 'font')
+
+        # It can be used as the name of an existing named font.
+        for f in (font.Font(root=self.root, name=obj, exists=True),
+                  font.nametofont(obj, root=self.root)):
+            # The Tcl object is kept as is, so that it is passed back to Tk.
+            self.assertIs(f.name, obj)
+            self.assertEqual(str(f), fontname)
+            self.assertEqual(f.actual(), self.font.actual())
+            self.assertEqual(f, self.font)
+            self.assertEqual(self.font, f)
+        # Referring to a non-existent named font still fails.
+        self.assertRaisesRegex(tkinter.TclError, 'named font nosuchfont',
+                               font.Font, root=self.root, exists=True,
+                               name=self.tcl_font_object('nosuchfont'))
+
+        # It can also be wrapped as a font description.
+        obj = self.tcl_font_object(('Times', 20, 'bold'))
+        f = font.Font(root=self.root, font=obj, exists=True)
+        self.assertIs(f.name, obj)
+        self.assertEqual(str(f), 'Times 20 bold')
+        self.assertNotIn(f.name, font.names(self.root))
+        self.assertEqual(f.actual('weight'), 'bold')
+        self.assertEqual(f.actual('size'), self.actual_size(('Times', 20, 'bold')))
 
     def test_copy(self):
         # size=-20 (pixels): copy() copies the configured options, so the
