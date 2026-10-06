@@ -1,0 +1,31 @@
+{
+  "schema": "SIGILITAS_GLUE_RELEASE_MANIFEST_V1",
+  "release": {
+    "name": "sigil4cpython-sigilitas-glue",
+    "version": "1.0.0",
+    "status": "final-versioned-glue-contract",
+    "source_repository": "jbermejovega/sigil4cpython",
+    "source_ref": "main",
+    "source_commit": "7baf016d58534967b5935a69458bde7c161d4ac6",
+    "artifacts_immutable": true,
+    "publication_requires": ["build_artifact_exists", "claimed_cpython_matrix_passes", "free_threaded_audit_passes", "serialization_round_trip_passes", "safe_replay_receipt_matches"]
+  },
+  "type_carriers": [
+    {"id": "sigil", "kind": "native", "identity": "SIGIL"},
+    {"id": "plural", "kind": "relational", "identity": "Plural"},
+    {"id": "quno", "kind": "relational", "identity": "QUNO"},
+    {"id": "matrix_protocol", "kind": "boundary", "identity": "MatrixProtocol"},
+    {"id": "synthgithub", "kind": "external_projection", "identity": "SynthGitHub"},
+    {"id": "fediverse", "kind": "external_projection", "identity": "Fediverse"}
+  ],
+  "runtime_surfaces": ["sigilitas.virtual_rpm", "virtual.pacadex", "paca.terminal"],
+  "flow": ["SIGIL", "Plural", "QUNO", "MatrixProtocol", "SynthGitHub", "Fediverse", "SIGILITAS.VirtualRPM", "Virtual.PACADEX", "PACA.Terminal"],
+  "boundary_rules": [
+    "external projections are typed links, never identity merges",
+    "MatrixProtocol carries versioned envelopes and provenance",
+    "VirtualRPM is a resolver boundary, not an execution authority",
+    "PACADEX and PACA.Terminal expose inspectable plans only",
+    "no network send, publish, tag, merge, or release is implied by this manifest"
+  ],
+  "replay": {"safe_replay": true, "pi_fixed": true, "receipt_inputs": ["schema", "release", "type_carriers", "runtime_surfaces", "flow", "boundary_rules"]}
+}
