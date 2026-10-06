@@ -10,7 +10,6 @@
   "bypass_list": [],
   "rules": [
     "RESTRICT_DELETIONS",
-    "REQUIRE_LINEAR_HISTORY",
     "REQUIRE_PULL_REQUEST",
     "REQUIRE_STATUS_CHECKS",
     "BLOCK_FORCE_PUSHES"
@@ -22,10 +21,12 @@
   "required_status_checks": [
     "Validate primitive typed publication codebook"
   ],
+  "linear_history_required_in_v1": false,
   "signed_commits_required_in_v1": false,
   "code_scanning_required_in_v1": false,
   "code_quality_required_in_v1": false,
   "coverage_rule_required_in_v1": false,
+  "deferred_hardening_reason": "Preserve compatibility with CPython upstream synchronization until each stricter repository path has an explicit stable witness.",
   "type_law": {
     "plural_typed": true,
     "resource_typed": true,
