@@ -28,8 +28,9 @@ CPYTHON_MINIMUM = 3.10 through 3.15;
 PUBLICATION_PROFILE = LIBRARY | RESEARCH | DEMO;
 EXECUTION_BOUNDARY = METADATA_ONLY | NATIVE_EXTENSION_PLAN.
 
-KRONE validates the finite selection. ABI3T requires CPython 3.15 or newer.
-A configuration occurrence is a source plan, not native execution.
+KRONE validates the finite selection. ABI3 requires CPython 3.10 or newer and
+ABI3T requires CPython 3.15 or newer. A configuration occurrence is a source
+plan, not native execution.
 
 The public native boundary remains Python.h, Limited API, Stable ABI,
 multi-phase extension initialization and typed PyCapsule. Include/internal,
@@ -42,13 +43,18 @@ Classic branch-protection state could not be read through the connected GitHub
 App, so no claim is made about classic branch protection.
 
 Recommended V1 ruleset for exact branch main:
-ACTIVE; empty bypass list; restrict deletions; require linear history; require a
-pull request with one approval and stale-review dismissal; require the status
-check named "Validate primitive typed publication codebook"; block force pushes.
+ACTIVE; empty bypass list; restrict deletions; require a pull request with one
+approval and stale-review dismissal; require the status check named
+"Validate primitive typed publication codebook"; block force pushes.
 
-Signed commits, code scanning, code quality and coverage are intentionally
-deferred until their paths are stable for both SIGIL publication changes and
-CPython upstream synchronization.
+Linear history is deliberately not required in V1 because sigil4cpython is a
+fork of python/cpython and upstream synchronization may legitimately need a
+merge-based path. Promote linear history only after the upstream synchronization
+procedure is explicitly constrained to fast-forward/rebase-only behavior.
+
+Signed commits, code scanning, code quality and coverage are also deferred until
+their paths are stable for both SIGIL publication changes and CPython upstream
+synchronization.
 
 A dedicated always-running PR-to-main publication check is preferable because
 the existing UAP and KQC workflows have path filters. A path-filtered workflow
