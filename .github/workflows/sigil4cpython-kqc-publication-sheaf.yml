@@ -100,14 +100,16 @@ jobs:
             kqc-dependency-free.log
             kqc-pydantika.log
           if-no-files-found: warn
-          archive: false
 
       - name: Fail on test obstruction
         if: steps.dependency_free.outcome != 'success' || steps.pydantika.outcome != 'success'
+        env:
+          DEPENDENCY_FREE_OUTCOME: ${{ steps.dependency_free.outcome }}
+          PYDANTIKA_OUTCOME: ${{ steps.pydantika.outcome }}
         run: |
           echo 'KQC publication sheaf tests retained an obstruction.'
-          test '${{ steps.dependency_free.outcome }}' = 'success'
-          test '${{ steps.pydantika.outcome }}' = 'success'
+          test "$DEPENDENCY_FREE_OUTCOME" = 'success'
+          test "$PYDANTIKA_OUTCOME" = 'success'
 
       - name: Authority boundary notice
         run: |

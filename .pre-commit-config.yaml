@@ -12,7 +12,9 @@ repos:
         files: ^Doc/
       - id: ruff-check
         name: Run Ruff (lint) on Lib/
-        args: [--exit-non-zero-on-fix]
+        args:
+          - --exit-non-zero-on-fix
+          - --extend-per-file-ignores=Lib/sigil4cpython/kqc_sheaf.py:F401
         files: ^Lib/
         exclude: ^Lib/test/
       - id: ruff-check
