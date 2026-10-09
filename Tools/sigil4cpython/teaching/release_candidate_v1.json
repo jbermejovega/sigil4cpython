@@ -13,7 +13,7 @@
   "tested_sources": [
     {
       "path": "Tools/sigil4cpython/teaching/paca_statphys_v1.py",
-      "git_blob": "0308bbe2a09043adb8373d722060e4a24c35e905"
+      "git_blob": "2f0835daf817202e78ce981d30f388c6ca5f4c67"
     },
     {
       "path": "Tools/sigil4cpython/teaching/paca_statphys_cli.py",
@@ -21,7 +21,7 @@
     },
     {
       "path": "Tools/sigil4cpython/teaching/test_paca_statphys_v1.py",
-      "git_blob": "c6693396dd26b0132e3846c421bf17b11e615094"
+      "git_blob": "15c02a2f561ae0a4595561d86f564f6d24e62f1c"
     },
     {
       "path": "Tools/sigil4cpython/teaching/paca_statphys_c_v1.c",
@@ -29,7 +29,7 @@
     }
   ],
   "evidence": {
-    "python_local_test_count": 20,
+    "python_local_test_count": 21,
     "python_local_result": "PASS",
     "python_syntax_compile": "PASS",
     "c99_local_compile": "PASS",
@@ -65,5 +65,5 @@
     "SAFE_REPLAY_SOURCE_ONLY"
   ],
   "artistic_rights": "ORIGINAL_TEXT_OR_LICENSE_REVIEW_REQUIRED",
-  "note": "Not a physical theorem, external runtime permission, CPython upstream PR, signed tag, or release certificate."
+  "note": "Source-only candidate: 21 unit tests pass locally. Run ID SHA-256 binds context, sites, coupling, field, beta, initial configuration and seed. No global uniqueness claim for independently repeated identical runs."
 }
