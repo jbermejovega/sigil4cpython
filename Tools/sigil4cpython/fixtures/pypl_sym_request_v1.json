@@ -1,0 +1,49 @@
+{
+  "schema_id": "SIGIL4CPYTHON_PYPL_INTEGRATION_REQUEST_V1",
+  "request_id": "PACA_SYM_GAME_PYPL_V1",
+  "source_repository": "jbermejovega/sigilbook",
+  "source_commit": "40b809720b797054864f6d2054fd8397fde3b2e6",
+  "target_repository": "jbermejovega/sigil4cpython",
+  "target_base_commit": "974d7e06ea31d369c3e97defd8054588eccc3e88",
+  "projection": "PUBLIC_SOURCE_ONLY_PYPL",
+  "artifacts": [
+    {
+      "path": "Tools/sigil4cpython/paca_sym_game_v1.py",
+      "sha256": "601df4a4b0462fa33f8708d78d4c7aff2bc4f3056fbd07bd405545cdf87a755c"
+    },
+    {
+      "path": "Tools/sigil4cpython/test_paca_sym_game_v1.py",
+      "sha256": "6d7c9a244b04b65a40a34259c2bf396b8150f543610da92a90f40c19ff700c0e"
+    },
+    {
+      "path": "Tools/sigil4cpython/fixtures/namotae.sym",
+      "sha256": "f2872f0565ba334798ce025d9e67fc11135054a8319ca1491c946e37c67d3fcf"
+    },
+    {
+      "path": "Tools/sigil4cpython/fixtures/paca_sym_game_v1.ebnf",
+      "sha256": "c629fd59553c0b1ce98938c0dacb9d8aa934a8e2a9f46deab398a21e71456fed"
+    },
+    {
+      "path": "Tools/sigil4cpython/pypl_integration_request_v1.py",
+      "sha256": "cabee2538cc96be93184a209b4130b77b70f6e3e0e00251bbdae95980a191691"
+    },
+    {
+      "path": "Tools/sigil4cpython/test_pypl_integration_request_v1.py",
+      "sha256": "e296830d9c449bbda232c34cfa78fc1c662a65be6247934ca1d9bf8181a2e111"
+    }
+  ],
+  "evidence": {
+    "local_tests_ref": "",
+    "license_review_ref": "",
+    "maintainer_review_ref": "",
+    "author_review_ref": ""
+  },
+  "boundaries": {
+    "no_private_payload": true,
+    "no_cpython_internals": true,
+    "no_runtime_effect": true,
+    "no_authority_transport": true,
+    "no_identity_transport": true,
+    "ai_assisted_disclosed": true
+  }
+}
