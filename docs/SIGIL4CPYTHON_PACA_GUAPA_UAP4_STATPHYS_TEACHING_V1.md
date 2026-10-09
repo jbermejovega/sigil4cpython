@@ -94,7 +94,7 @@ cc -std=c99 -Wall -Wextra -Werror -pedantic \
 ### Evidence and shipping policy
 
 Author-run focused local checks for the *original authored source files* recorded:
-- Python: **16 passed**, and `py_compile` passed.
+- Python: **20 passed**, and `py_compile` passed.
 - C99: compiler with strict warnings passed; \(+,+,+\) energy -3; \(-,+,+\) energy +1; invalid label rejected.
 - Source files subsequently copied to public SIGIL4CPython branch: GitHub source readback and hash verification required before promoting evidence to exact published bytes.
 
