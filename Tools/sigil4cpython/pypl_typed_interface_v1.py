@@ -56,13 +56,13 @@ class SourcePlanGate(Protocol):
         """Calculate a local source-plan judgement, without external effects."""
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Artifact:
     path: str
     sha256: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Evidence:
     local_tests_ref: str | None
     license_review_ref: str | None
@@ -70,7 +70,7 @@ class Evidence:
     author_review_ref: str | None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Boundaries:
     no_private_payload: bool
     no_cpython_internals: bool
@@ -80,7 +80,7 @@ class Boundaries:
     ai_assisted_disclosed: bool
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class IntegrationRequest:
     request_id: str
     source_repository: str
@@ -123,7 +123,7 @@ class IntegrationRequest:
         }
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class IntegrationVerdict:
     verdict: Verdict
     request_id: str | None
