@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from hashlib import sha256
 from itertools import product
 from math import exp, isfinite, log
 from random import Random
@@ -84,7 +85,10 @@ def trajectory(ring: Ring, *, beta: float, steps: int, seed: int,
     energy(ring, spins)
     rng = Random(seed)
     trace: list[Exchange] = []
-    parent = f"{ring.context}:GENESIS:0"
+    run_source = (ring.context, ring.sites, ring.coupling, ring.field,
+                  float(beta), spins, seed)
+    run_id = sha256(repr(run_source).encode("utf-8")).hexdigest()[:16]
+    parent = f"{ring.context}:RUN:{run_id}:GENESIS:0"
     for epoch in range(1, steps + 1):
         i = rng.randrange(len(spins))
         candidate = spins[:i] + (-spins[i],) + spins[i + 1:]
@@ -95,7 +99,7 @@ def trajectory(ring: Ring, *, beta: float, steps: int, seed: int,
         if accepted:
             spins = candidate
         after = energy(ring, spins)
-        occurrence = f"{ring.context}:EPOCH:{epoch}"
+        occurrence = f"{ring.context}:RUN:{run_id}:EPOCH:{epoch}"
         record = Exchange(epoch, ring.sites[i], parent, occurrence, before,
                           after, after - before, accepted, p,
                           f"SIMULATED:{seed}:{epoch}")
