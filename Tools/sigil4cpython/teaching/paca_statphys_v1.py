@@ -17,6 +17,8 @@ class Ring:
     context: str = "PACA_GUAPA"
 
     def __post_init__(self):
+        if type(self.sites) is not tuple:
+            raise ValueError("sites must be an immutable tuple")
         if not 3 <= len(self.sites) <= 12 or len(set(self.sites)) != len(self.sites):
             raise ValueError("3..12 uniquely named sites required")
         if any(not isinstance(s, str) or not s for s in self.sites):
@@ -64,9 +66,9 @@ class Exchange:
 
 
 def metropolis_probability(delta_energy: int, beta: float) -> float:
-    if type(delta_energy) is not int or not isinstance(beta, (float, int)):
+    if type(delta_energy) is not int or type(beta) not in (float, int):
         raise ValueError("typed delta/beta required")
-    if not isfinite(beta) or beta < 0:
+    if not isfinite(beta) or not 0 <= beta <= 10000:
         raise ValueError("finite nonnegative beta required")
     return 1.0 if delta_energy <= 0 else exp(-float(beta) * delta_energy)
 
@@ -76,6 +78,8 @@ def trajectory(ring: Ring, *, beta: float, steps: int, seed: int,
     if type(steps) is not int or not 0 <= steps <= 10000 or type(seed) is not int:
         raise ValueError("bounded step count and integer seed required")
     metropolis_probability(0, beta)
+    if initial is not None and type(initial) is not tuple:
+        raise ValueError("initial spin assignment must be a tuple")
     spins = tuple([1] * len(ring.sites) if initial is None else initial)
     energy(ring, spins)
     rng = Random(seed)
