@@ -1,0 +1,40 @@
+{
+  "schema_id": "KOKO_LINUX_CPYTHON_PACKAGING_DEPLOY_V1",
+  "status": "SOURCE_ONLY_DEPLOYED_TO_PR",
+  "branch": "feat/sympy-quazris-symbolic-v1",
+  "components": [
+    "src/sigil4py/__init__.py",
+    "src/sigil4py/cli.py",
+    "README.md",
+    "tests/test_crone_cli.py",
+    "pyproject.toml"
+  ],
+  "profiles": {
+    "core": "PYTHON_STDLIB",
+    "symbolik": "OPTIONAL_SYMPY",
+    "dev": "PYTEST_AND_BUILD",
+    "native": "NOT_IMPLEMENTED",
+    "hpc": "NOT_IMPLEMENTED",
+    "art": "NOT_IMPLEMENTED"
+  },
+  "release_gate": {
+    "safe_to_ship": false,
+    "sdist_built": false,
+    "wheel_built": false,
+    "cli_installed_and_tested": false,
+    "full_tests_run": false,
+    "licenses_reviewed": false
+  },
+  "policy": {
+    "no_auto_release": true,
+    "no_auto_merge": true,
+    "authorial_art_copyright_preserved": true
+  },
+  "invariants": [
+    "KRONE_NOT_CRONE",
+    "CRONE_NOT_QRONE",
+    "SOURCE_NOT_EXECUTION",
+    "SAFE_REPLAY",
+    "PIORNALEGO_ES_CANON"
+  ]
+}
