@@ -1,0 +1,69 @@
+{
+  "schema_id": "SIGIL4CPYTHON_PACA_GUAPA_UAP4_STATPHYS_RELEASE_CANDIDATE_V1",
+  "root": "SIGILBOOK_TOTAL_VOID_AST_OF_ALL_ASTS_V1",
+  "conceptual_author": "Jara Juana Bermejo Vega",
+  "public_carrier": "jbermejovega/sigil4cpython",
+  "component": "Tools/sigil4cpython/teaching",
+  "status": "SOURCE_TESTED_RELEASE_CANDIDATE",
+  "safe_to_ship": false,
+  "release_tag_created": false,
+  "uap": "UNJUDGED",
+  "cppython_upstream_submission": false,
+  "origin_source_ref": "jbermejovega/sigilbook/teaching/paca-guapa-uap4-statphys-typed-v1-20261009",
+  "tested_sources": [
+    {
+      "path": "Tools/sigil4cpython/teaching/paca_statphys_v1.py",
+      "git_blob": "0308bbe2a09043adb8373d722060e4a24c35e905"
+    },
+    {
+      "path": "Tools/sigil4cpython/teaching/paca_statphys_cli.py",
+      "git_blob": "c5f6eb1f8982fd4025f32ef383ced140699f5252"
+    },
+    {
+      "path": "Tools/sigil4cpython/teaching/test_paca_statphys_v1.py",
+      "git_blob": "c6693396dd26b0132e3846c421bf17b11e615094"
+    },
+    {
+      "path": "Tools/sigil4cpython/teaching/paca_statphys_c_v1.c",
+      "git_blob": "3332d7d76e277dcdf41d752a7209c2ec0e934c45"
+    }
+  ],
+  "evidence": {
+    "python_local_test_count": 20,
+    "python_local_result": "PASS",
+    "python_syntax_compile": "PASS",
+    "c99_local_compile": "PASS",
+    "c99_reference_cases": "PLUS_PLUS_PLUS_EQUALS_MINUS3;MINUS_PLUS_PLUS_EQUALS_PLUS1",
+    "c99_invalid_spin": "REJECT",
+    "hosted_ci": "NOT_RUN",
+    "full_cpython_build": "NOT_RUN",
+    "human_maintainer_review": "PENDING",
+    "license_review": "PENDING",
+    "independent_student_evaluation": "PENDING"
+  },
+  "c_vessel": {
+    "language": "C99",
+    "kind": "STANDALONE_TEACHING_CLI",
+    "candidate_tag": "C_VESSEL_SAFE_TO_SHIP_REQUEST_V1",
+    "safe_to_ship": false,
+    "cp_python_abi_dependency": false,
+    "cpython_private_api_dependency": false
+  },
+  "hard_gates": [
+    "exact_artifact_bytes",
+    "new_branch_review",
+    "licensing_and_copyright",
+    "human_maintainer_signoff",
+    "retest_exact_target_head"
+  ],
+  "protected": [
+    "NO_COERCION",
+    "PI_FIXED",
+    "TRACE_PRESERVED",
+    "NO_AUTHORITY_TRANSPORT",
+    "NO_IDENTITY_TRANSPORT",
+    "SAFE_REPLAY_SOURCE_ONLY"
+  ],
+  "artistic_rights": "ORIGINAL_TEXT_OR_LICENSE_REVIEW_REQUIRED",
+  "note": "Not a physical theorem, external runtime permission, CPython upstream PR, signed tag, or release certificate."
+}
