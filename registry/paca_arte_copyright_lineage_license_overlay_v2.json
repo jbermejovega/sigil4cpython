@@ -1,0 +1,11 @@
+{
+  "schema_id": "PACA_ARTE_COPYRIGHT_LINEAGE_LICENSE_OVERLAY_V2",
+  "status": "POLICY_CANDIDATE_HOLD_QUNO",
+  "software": {"declared_project_license": "Apache-2.0", "third_party_licenses_preserved": true},
+  "sympy": {"role": "OPTIONAL_TEACHING_DEPENDENCY", "license": "BSD-3-Clause", "ownership_transport": false},
+  "textbook": {"default": "ALL_RIGHTS_RESERVED", "candidate_license": "CC-BY-SA-4.0", "requires_explicit_rightsholder_grant": true},
+  "paca_arte": {"default": "ALL_RIGHTS_RESERVED", "copyright_preserved": true, "no_blanket_cc_license": true},
+  "required_artifact_fields": ["work_id", "author", "copyright_holder", "source_lineage", "modification_notice", "license_id", "license_uri", "grant_witness"],
+  "release": {"status": "HOLD_QUNO", "safe_to_ship": false, "tests_verified": false, "license_audit_verified": false, "human_release_authorized": false},
+  "invariants": ["COPYRIGHT_NOT_LICENSE", "SHARE_NOT_OWNERSHIP_TRANSFER", "FORK_NOT_AUTHORSHIP", "NO_AUTHORITY_TRANSPORT", "SAFE_REPLAY", "PIORNALEGO_ES_CANON"]
+}
