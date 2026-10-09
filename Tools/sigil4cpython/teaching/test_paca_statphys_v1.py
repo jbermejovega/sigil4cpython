@@ -38,6 +38,19 @@ class TestPacaStatphys(unittest.TestCase):
             with self.assertRaises(ValueError):
                 energy(self.ring, state)
 
+    def test_sites_must_be_immutable_tuple(self):
+        with self.assertRaises(ValueError):
+            Ring(["a", "b", "c"])
+
+    def test_beta_boolean_and_excess_rejected(self):
+        for value in (True, float("inf"), 10001.0):
+            with self.assertRaises(ValueError):
+                metropolis_probability(4, value)
+
+    def test_initial_mutable_list_rejected(self):
+        with self.assertRaises(ValueError):
+            trajectory(self.ring, beta=0.2, steps=1, seed=1, initial=[1,1,1])
+
     def test_bad_site_identity_rejected(self):
         with self.assertRaises(ValueError):
             Ring(("same", "same", "other"))
