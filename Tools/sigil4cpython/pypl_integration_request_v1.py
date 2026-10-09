@@ -131,11 +131,16 @@ def evaluate_request(manifest: object, repository_root: Path) -> dict[str, Any]:
             missing.append(f"unresolved_digest:{path}")
             continue
         artifact = (root / path).resolve()
-        if not artifact.is_relative_to(root):
+        if not artifact.is_relative_to(root) or not _safe_path(
+            artifact.relative_to(root).as_posix()
+        ):
             errors.append(f"artifact_escapes_root:{path}")
             continue
         if not artifact.is_file():
             missing.append(f"artifact_missing:{path}")
+            continue
+        if artifact.stat().st_size > 1_048_576:
+            errors.append(f"artifact_exceeds_size_limit:{path}")
             continue
         if sha256(artifact.read_bytes()).hexdigest() != recorded_hash:
             errors.append(f"digest_mismatch:{path}")
