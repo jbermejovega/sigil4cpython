@@ -86,6 +86,12 @@ class TestPacaStatphys(unittest.TestCase):
         self.assertEqual(energy(self.ring, final), trace[-1].after_energy)
         self.assertEqual(trace[1].parent, trace[0].occurrence)
 
+    def test_run_provenance_distinguishes_contexts(self):
+        a = trajectory(self.ring, beta=0.3, steps=1, seed=1)[1][0].occurrence
+        b = trajectory(self.ring, beta=0.3, steps=1, seed=2)[1][0].occurrence
+        c = trajectory(Ring(self.ring.sites, field=1), beta=0.3, steps=1, seed=1)[1][0].occurrence
+        self.assertEqual(len({a, b, c}), 3)
+
     def test_deterministic_seed(self):
         a = trajectory(self.ring, beta=0.9, steps=50, seed=11)
         b = trajectory(self.ring, beta=0.9, steps=50, seed=11)
