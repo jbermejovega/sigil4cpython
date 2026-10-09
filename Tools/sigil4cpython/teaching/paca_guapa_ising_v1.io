@@ -1,0 +1,17 @@
+# PACA.IO / .sym-compatible source-game description (nonexecuting).
+# Requires an explicitly bound .sym parser to interpret; no runtime side effects.
+GAME PACA_GUAPA_ISING {
+  ROOT SIGILBOOK_TOTAL_VOID_AST_OF_ALL_ASTS_V1;
+  TYPE PACA_PDG<SymbolicGame,PLURAL,QUNO>;
+  STATE INSPECT;
+  STATE RELATE;
+  STATE EXCHANGE;
+  STATE KOKOMPI;
+  STATE REVIEW;
+  INITIAL INSPECT;
+  TRANSITION PACA_NUKLEA FROM INSPECT TO RELATE VIA source_physics;
+  TRANSITION PACA_QORE FROM RELATE TO EXCHANGE VIA typed_edge_witness;
+  TRANSITION UAP4_EXCHANGE FROM EXCHANGE TO KOKOMPI VIA resource_ledger;
+  TRANSITION PACA_GUAPA FROM KOKOMPI TO REVIEW VIA student_interpretation;
+  TRANSITION REKOKO FROM REVIEW TO INSPECT VIA fresh_epoch_provenance;
+}
