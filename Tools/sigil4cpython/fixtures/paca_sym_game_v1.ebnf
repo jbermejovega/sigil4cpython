@@ -1,0 +1,20 @@
+(* .sym V1, line-oriented; exactly one statement per line. *)
+(* Syntax alone does not confer PACAPDG/UAP admission or real consent. *)
+game         = "GAME", ws, ident, ws, "{", newline,
+               root, newline, type, newline,
+               state, { newline, state }, newline, initial,
+               newline, transition, { newline, transition },
+               newline, "}" ;
+root         = "ROOT", ws, "SIGILBOOK_TOTAL_VOID_AST_OF_ALL_ASTS_V1", ";" ;
+type         = "TYPE", ws, "PACA_PDG<SymbolicGame,PLURAL,QUNO>;" ;
+state        = "STATE", ws, ident, ";" ;
+initial      = "INITIAL", ws, ident, ";" ;
+transition   = "TRANSITION", ws, ident, ws, "FROM", ws, ident,
+               ws, "TO", ws, ident, ws, "VIA", ws, ident, ";" ;
+ident        = letter, { letter | digit | "_" } ;
+letter       = "A" | ... | "Z" | "a" | ... | "z" ;
+digit        = "0" | ... | "9" ;
+ws           = " ", { " " } ;
+newline      = "\n" ;
+(* Parser permits clause ordering variation after header and before closing brace;
+   uniqueness and state reachability constraints are checked semantically. *)
