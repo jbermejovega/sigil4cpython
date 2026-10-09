@@ -60,7 +60,7 @@ The original **PACA GUAPA** teaching pattern uses art to explain the physics, wi
 
 ## Hands-on exercises
 
-**Exercise 1 — Ising energy.** For \(N=3,J=1,h=0\), show that (\(\((+,+,+)\)\) has energy \(-3\), while \(\(\((-,+,+)\)\) has energy \(+1\). Determine the cost of flipping one spin. Explain why two equal spin values do not identify the sites.
+**Exercise 1 — Ising energy.** For \(N=3,J=1,h=0\), show that \((+,+,+)\) has energy \(-3\), while \((-,+,+)\) has energy \(+1\). Determine the cost of flipping one spin. Explain why two equal spin values do not identify the sites.
 
 **Exercise 2 — Exact Gibbs ensemble.** Count states by energy: 2 of energy \(-3\), 6 of energy \(+1\). Verify
 \(Z(\beta)=2e^{3\beta}+6e^{-\beta}\)
@@ -72,7 +72,7 @@ and the value \(Z(0)=8\). Compare with the CLI enumerator.
 
 **Exercise 5 — Symmetry/art.** Assign each site a distinct artistic trope (original descriptions or colors). Swap two colors without changing site identities and say which physical observables remain invariant. A value-equivalence class cannot erase an occurrence ID.
 
-**Exercise 6 — Critical assessment.** Explain why finite (N\) does not establish a thermodynamic-limit phase transition; why a reproducible seed does not prove Monte Carlo mixing; and why a Git commit or passing test does not grant release or CPython authority.
+**Exercise 6 — Critical assessment.** Explain why finite \(N\) does not establish a thermodynamic-limit phase transition; why a reproducible seed does not prove Monte Carlo mixing; and why a Git commit or passing test does not grant release or CPython authority.
 
 ### Student evaluation
 
