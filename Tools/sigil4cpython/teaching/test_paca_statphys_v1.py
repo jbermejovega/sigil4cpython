@@ -111,6 +111,14 @@ class TestPacaStatphys(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertAlmostEqual(json.loads(p.stdout)["log_partition"], math.log(8))
 
+    def test_cli_oversized_sites_rejected(self):
+        cli = Path(__file__).with_name("paca_statphys_cli.py")
+        p = subprocess.run([sys.executable, str(cli), "equilibrium",
+                            "--sites", "100000000"],
+                           capture_output=True, text=True)
+        self.assertEqual(p.returncode, 2)
+        self.assertIn("--sites must be between 3 and 12", p.stderr)
+
     def test_cli_simulate_json(self):
         cli = Path(__file__).with_name("paca_statphys_cli.py")
         p = subprocess.run([sys.executable, str(cli), "play",
