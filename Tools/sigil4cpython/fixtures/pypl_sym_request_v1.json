@@ -30,6 +30,18 @@
     {
       "path": "Tools/sigil4cpython/test_pypl_integration_request_v1.py",
       "sha256": "e296830d9c449bbda232c34cfa78fc1c662a65be6247934ca1d9bf8181a2e111"
+    },
+    {
+      "path": "Tools/sigil4cpython/pypl_typed_interface_v1.py",
+      "sha256": "13440a6598e4047c59013c6478b9719374690d2ab1b36cf264d732d14aa702d0"
+    },
+    {
+      "path": "Tools/sigil4cpython/test_pypl_typed_interface_v1.py",
+      "sha256": "4ce7395ada80041c9d6411c615484a6611adbb5ff0655354686aaaf245914fae"
+    },
+    {
+      "path": "docs/SIGIL4CPYTHON_PYPL_TYPED_INTERFACE_V1.md",
+      "sha256": "cc3c5f1e3b15acbb3196ead2b60feb4c8e32036e4b2f54ea401b0f822d1786a8"
     }
   ],
   "evidence": {
