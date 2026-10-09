@@ -20,6 +20,10 @@ def main(argv=None):
             p.add_argument("--steps", type=int, default=12)
             p.add_argument("--seed", type=int, default=42)
     args = parser.parse_args(argv)
+    if not 3 <= args.sites <= 12:
+        parser.error("--sites must be between 3 and 12")
+    if args.command == "play" and not 0 <= args.steps <= 10000:
+        parser.error("--steps must be between 0 and 10000")
     ring = Ring(tuple(f"site_{i}" for i in range(args.sites)),
                 coupling=args.coupling, field=args.field)
     if args.command == "equilibrium":
