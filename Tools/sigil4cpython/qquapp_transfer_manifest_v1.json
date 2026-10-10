@@ -1,0 +1,52 @@
+{
+  "schema_id": "SIGIL4CPYTHON_QQUAPP_SKILL_PUBLIC_PROJECTION_V1",
+  "source": {
+    "repo": "jbermejovega/sigilbook",
+    "branch": "feat/qquapp-transferable-skill-pull-push-v1-20261010",
+    "pr": 3745,
+    "schema": "SIGIL_QQUAPP_TRANSFERABLE_SKILL_PULL_PUSH_V1"
+  },
+  "target": {
+    "repo": "jbermejovega/sigil4cpython",
+    "base": "main",
+    "source_base_sha": "974d7e06ea31d369c3e97defd8054588eccc3e88"
+  },
+  "files": [
+    {
+      "path": "Tools/sigil4cpython/qquapp_transferable_skill_v1.py",
+      "git_blob_sha": "a0797fb9ec5762db71e67cdc44fe6f0f795c6b5a"
+    },
+    {
+      "path": "Tools/sigil4cpython/qquapp_incremental_skill_v1.py",
+      "git_blob_sha": "cb55eadce4ec253801fb3e62f3fd3c68286ca5b0"
+    },
+    {
+      "path": "Tools/sigil4cpython/qquapp_skill_cli_v1.py",
+      "git_blob_sha": "616d8e1805cb7cb3eca4cb6fd69a1f540c6c3e50"
+    },
+    {
+      "path": "Tools/sigil4cpython/test_qquapp_transferable_skill_v1.py",
+      "git_blob_sha": "86b8b7b136b5ad9eda24271b2c4768605728e677"
+    }
+  ],
+  "evidence": {
+    "local_focused_tests": "23/23 PASS",
+    "tested_scikit_learn": "1.8.0",
+    "full_hosted_ci": "HOLD_QUNO",
+    "license_review": "HOLD_QUNO",
+    "upstream_review": "HOLD_QUNO",
+    "universal_generalization": "NOT_CLAIMED"
+  },
+  "safety": {
+    "runtime_default": "INERT",
+    "scikit_opt_in": true,
+    "external_effect": false,
+    "identity_transport": false,
+    "authority_transport": false,
+    "model_persistence": false,
+    "cpython_upstream_mutation": false
+  },
+  "verdict": "SOURCE_TESTED_REVIEW_CANDIDATE",
+  "uap": "UNJUDGED",
+  "release_tag_created": false
+}
